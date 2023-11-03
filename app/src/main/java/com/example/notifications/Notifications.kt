@@ -36,7 +36,7 @@ fun Notificaciones(){
 
     val ID_NOTIFICATION = 0
 
-    //Funcion de creacion propia como corrutina
+    //Funcion de creacion propia como corrutina para crear el canal
     LaunchedEffect(Unit){
 
         crearNotificacion(ID_CHANNEL, context){
@@ -44,8 +44,6 @@ fun Notificaciones(){
         }
 
     }
-
-
     val modifier = Modifier
         .padding(18.dp)
         .fillMaxWidth()
@@ -90,23 +88,16 @@ fun notificacionProgramada(context: Context) {
     val intent = Intent(context, NotificacionProgramada::class.java)
     val pendingIntent = PendingIntent.getBroadcast(
         context,
-        3,
+        5,
         intent,
         PendingIntent.FLAG_IMMUTABLE or PendingIntent.FLAG_UPDATE_CURRENT)
 
         var alarmManager = context.getSystemService(Context.ALARM_SERVICE) as AlarmManager
         alarmManager.setExact(
             AlarmManager.RTC_WAKEUP,
-            Calendar.getInstance().timeInMillis + 4000,
+            Calendar.getInstance().timeInMillis + 6000,
             pendingIntent
         )
-
-
-
-
-
-
-
 }
 
 fun notificacionTextoLargo(
@@ -135,6 +126,7 @@ fun notificacionTextoLargo(
         .setContentIntent(pendingIntent)
         //.setLargeIcon(BitmapFactory.decodeResource(context.resources, R.drawable.baseline_verified_user_24))
         .setStyle(NotificationCompat.BigTextStyle().bigText(content))
+        .setAutoCancel(true)
         .setPriority(priority)
 
 
@@ -158,6 +150,7 @@ fun notificacionTextoLargo(
 
 
 }
+
 
 fun notificacionBasica(context: Context,
                        idChannel: String,
@@ -194,6 +187,7 @@ fun notificacionBasica(context: Context,
 
 }
 
+//crear el canal
 fun crearNotificacion(
     idChannel: String,
     context: Context,
